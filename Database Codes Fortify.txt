@@ -1,0 +1,31 @@
+CREATE DATABASE fortify;
+
+CREATE TABLE user (IDuser INT NOT NULL PRIMARY KEY, Name VARCHAR(45));
+
+CREATE TABLE account (IDaccount INT NOT NULL PRIMARY KEY, Username VARCHAR(45), Password VARCHAR(45), Emailaddress VARCHAR(45), IDuser INT);
+
+CREATE TABLE image (IDdigitalimage INT NOT NULL PRIMARY KEY, Original BLOB, Watermarked BLOB, IDuser INT, IDaccount INT);
+
+CREATE TABLE signature (IDsignature INT NOT NULL PRIMARY KEY, Signature VARCHAR(45), IDuser INT, IDaccount INT);
+
+CREATE TABLE certificate (IDcertificate INT NOT NULL PRIMARY KEY, Evidence VARCHAR(45), Date TIMESTAMP, IDaccount INT);
+
+---------------------------------------------------------------------------------------------------------------------------------
+
+ALTER TABLE account
+ADD FOREIGN KEY (IDuser) REFERENCES user(IDuser);
+
+ALTER TABLE signature
+ADD FOREIGN KEY (IDuser) REFERENCES user(IDuser);
+
+ALTER TABLE image
+ADD FOREIGN KEY (IDuser) REFERENCES user(IDuser);
+
+ALTER TABLE signature
+ADD FOREIGN KEY (IDaccount) REFERENCES account(IDaccount);
+
+ALTER TABLE image
+ADD FOREIGN KEY (IDaccount) REFERENCES account(IDaccount);
+
+ALTER TABLE certificate
+ADD FOREIGN KEY (IDaccount) REFERENCES account(IDaccount);
